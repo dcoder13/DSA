@@ -128,7 +128,8 @@ int ans=0;
 - Similar to diameter , but add and maximize path sum instead of branch height.
 - ![[images/maxpathsum.bmp]]
 - **Code:**
-	```c++
+
+```c++
 int maxi=INT_MIN;
     int path(TreeNode* root)
     {
@@ -142,7 +143,6 @@ int maxi=INT_MIN;
     int maxPathSum(TreeNode* root) {
         path(root);
         return maxi;
-
     }
 ```
 - NOTE: the max is taken if incase **lsum** or **rsum** returns negative value , we need to maximize the sum , so to ignore those values , we add zero instead.
