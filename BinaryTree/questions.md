@@ -36,27 +36,27 @@ int maxheight(TreeNode* root)
 	- check if balanced or not
 ```c++
 // (lh-rh)<=1 at any node
-    int maxheight(TreeNode* root) {
-        auto node = root;
-        if(node==NULL)return 0;
-        int lh = maxheight(node->left);
-        int rh = maxheight(node->right);
-        return max(lh,rh)+1;
-        // if(lh==-1 || rh == -1)return -1;
-        // if(abs(lh-rh)>1)return -1;
-    }
-  
-    bool isBalanced(TreeNode* root) {
-        auto node = root;
-        if(node==NULL)return true;
-        int lh=maxheight(node->left);
-        int rh=maxheight(node->right);
-        if(abs(lh-rh)>1)return false;
-        bool l = isBalanced(node->left);
-        bool r = isBalanced(node->right);
-        return l and r;
-        //this solution will take O(N){for traversal} * O(N){for calc max height of a subtree}
-    }
+int maxheight(TreeNode* root) {
+auto node = root;
+if(node==NULL)return 0;
+int lh = maxheight(node->left);
+int rh = maxheight(node->right);
+return max(lh,rh)+1;
+// if(lh==-1 || rh == -1)return -1;
+// if(abs(lh-rh)>1)return -1;
+}
+
+bool isBalanced(TreeNode* root) {
+auto node = root;
+if(node==NULL)return true;
+int lh=maxheight(node->left);
+int rh=maxheight(node->right);
+if(abs(lh-rh)>1)return false;
+bool l = isBalanced(node->left);
+bool r = isBalanced(node->right);
+return l and r;
+//this solution will take O(N){for traversal} * O(N){for calc max height of a subtree}
+}
 ```
 **Time : O(N^2)** ( For every node, Height Function is called which takes O(N) Time. Hence for every node it becomes N*N ) 
 
@@ -85,7 +85,6 @@ int check(TreeNode* root) {
     }
 };
 ```
-	```
 - ### Analysis :
 	- **Time :** O(N) .
 	- Space :** O(1) Extra Space + O(H) Recursion Stack space (Where “H”  is the height of binary tree).
@@ -128,7 +127,10 @@ int ans=0;
 - Similar to diameter , but add and maximize path sum instead of branch height.
 - ![[images/maxpathsum.bmp]]
 - **Code:**
+<<<<<<< HEAD
 
+=======
+>>>>>>> aec2b2a97a3022bfbe8e31d20fcdaacb5f850f3e
 ```c++
 int maxi=INT_MIN;
     int path(TreeNode* root)
