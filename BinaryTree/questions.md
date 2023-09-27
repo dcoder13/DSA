@@ -21,11 +21,8 @@ int maxheight(TreeNode* root)
 - **Time** : O(N)  - traversal takes O(N) and height is compared during traversal.
 - **Space** : O(1) Extra Space + O(H) Recursion Stack space, where **“H”**  is the height of the binary tree.
 	- worst case **O(N)** skewed tree.
+
 ---
-
-
-
-
 ---
 ## [Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)
 - Balanced tree => at any node , **abs(Left height - Right height) <=1** .
@@ -58,6 +55,7 @@ int maxheight(TreeNode* root)
         //this solution will take O(N){for traversal} * O(N){for calc max height of a subtree}
     }
 ```
+
 **Time : O(N^2)** ( For every node, Height Function is called which takes O(N) Time. Hence for every node it becomes N*N ) 
 
 **Space : O(1)** ( Extra Space ) **+ O(H)** ( Recursive Stack Space where **“H”** is the height of tree ).
@@ -85,7 +83,6 @@ int check(TreeNode* root) {
     }
 };
 ```
-	```
 - ### Analysis :
 	- **Time :** O(N) .
 	- Space :** O(1) Extra Space + O(H) Recursion Stack space (Where “H”  is the height of binary tree).
@@ -96,7 +93,7 @@ int check(TreeNode* root) {
 ## [ Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree/)
 - calculate left max height and right max height at each node using traversal and store the maximum of  **edges on left + edges on right** for each node.
 
-![[images/Diameteroftree.bmp]]
+![](images/Diameteroftree.bmp)
 ```c++
 int ans=0;
     //length of path here = number of edges in path
@@ -126,7 +123,7 @@ int ans=0;
 ---
 ## [Max path sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
 - Similar to diameter , but add and maximize path sum instead of branch height.
-- ![[images/maxpathsum.bmp]]
+- ![](images/maxpathsum.bmp)
 - **Code:**
 
 ```c++
