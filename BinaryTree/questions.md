@@ -150,3 +150,118 @@ int maxi=INT_MIN;
 			- Reason: We are doing a tree traversal.
 	- **Space : O(H)** H = height of the binary tree
 		-  worst case (skewed tree), space complexity can be O(N).
+---
+---
+
+## [Identical Trees](https://leetcode.com/problems/same-tree/)
+- **Conditions :**
+	1. value of a node in T1 == value of the corresponding node in T2
+	2. left subtree of the corresponding nodes of trees T1 and T2 must be identical
+	3. same for right subtree
+	![](images/identicaltree.bmp)
+	```c++
+	bool isSameTree(TreeNode* p, TreeNode* q) {
+        if(p==NULL || q==NULL) return p==q;
+        return (p->val == q->val) && isSameTree(p->left,q->left) && isSameTree(p->right,q->right);
+    }
+```
+---
+- ### Analysis :
+	- **Time : O(N)**.
+			- Reason: We are doing a tree traversal.
+	- **Space : O(H)** H = height of the binary tree
+		-  worst case (skewed tree), space complexity can be O(N).
+---
+---
+
+## [Zig-Zag traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/description/)
+- like [level order](BinaryTree/Binarytree.md) but print from left to right and from right to left alternatively
+- Naive approach - traverse like level order with a flag variable to reverse the vector before appending alternatively
+- instead , create an array of fixed size (== size of each level) and using a flag add elements <u>from size-1 to 0</u> or <u>from 0 to size-1</u> (alternatively)
+```c++
+vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        queue <TreeNode*> q;
+        auto node = root;
+        bool flag=false;
+        vector <vector <int>> v;
+        if(node==NULL)return v;
+        q.push(node);
+        while(!q.empty())
+        {
+            int size=q.size();
+            flag^=true;
+            vector <int> level(size);
+            for(int i = 0 ; i < size ; i++)
+            {
+                auto temp=q.front();
+                if(flag)level[i]=temp->val;
+                else level[size-i-1]=temp->val;
+                if(temp->left!=NULL)q.push(temp->left);
+                if(temp->right!=NULL)q.push(temp->right);
+                q.pop();
+            }
+            v.push_back(level);
+        }
+        return v;
+    }
+```
+### Time and Space Analysis:
+- **Time Complexity: O(N)**  since traversing through each node only once  
+- **Space Complexity: O(N)**
+---
+---
+
+## [Boundary Traversal](https://www.codingninjas.com/studio/problems/boundary-traversal-of-binary-tree_790725)
+![](images/boundarytraversal.bmp)
+- ### Approach:
+	- first find the left boundary, <u>excluding the leaf and root nodes</u> 
+	- then find the leaf nodes
+	- then the right boundary , excluding leaf and root nodes
+	- **NOTE :** The order must be :
+		- left boundary top to bottom 
+		- leaf nodes , left to right 
+		- right boundary bottom to top 
+- **Code :**
+```c++
+vector<int> v;
+void dfsleaf(TreeNode<int> *node)
+{
+    if(!node)return;
+    dfsleaf(node->left);
+    dfsleaf(node->right);
+    if(!node->left && !node->right)v.push_back(node->data);
+}
+void dfsleft(TreeNode<int> *node)
+{
+    if(!node)return;
+    if(node->left || node->right)v.push_back(node->data);//<------
+    if(node->left)dfsleft(node->left);
+    else dfsleft(node->right);
+}
+void dfsright(TreeNode<int> *node)
+{
+    if(!node)return;
+    if(node->right)dfsright(node->right);
+    else dfsright(node->left);
+    if(node->left || node->right)v.push_back(node->data);//<------
+  
+}
+vector<int> traverseBoundary(TreeNode<int> *root)
+{
+    auto node = root;
+    v.push_back(node->data);
+    dfsleft(node->left);
+    dfsleaf(node);
+    dfsright(node->right);    
+    return v;
+}
+```
+- **Explanation :**
+	- dfs leaf calculates leaf nodes i.e., no further branches
+	- while pushing in vector in dfs left and dfs right , we're excluding leaf nodes
+	- observe the difference in positions of the pushback statement in dfsleft and dfsright
+		- if dfsleft, its written before accessing further branches , to push while traversing
+		- in dfsright, its written after accessing branches, to push while backtracking(to maintain the order for the desired output i.e., bottom to top)
+- ### Analysis :
+	- **Time : O(N)** - O(N) *(dfsleaf)* + O(H) *(dfsleft)* + O(H) *(dfsright)* = O(N)
+	- **Space : O(H)** - recursion stack *(worst case = O(N) i.e., skewed tree)*
