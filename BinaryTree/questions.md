@@ -164,7 +164,7 @@ int maxi=INT_MIN;
         if(p==NULL || q==NULL) return p==q;
         return (p->val == q->val) && isSameTree(p->left,q->left) && isSameTree(p->right,q->right);
     }
-```
+    ```
 ---
 - ### Analysis :
 	- **Time : O(N)**.
