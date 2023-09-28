@@ -159,12 +159,12 @@ int maxi=INT_MIN;
 	2. left subtree of the corresponding nodes of trees T1 and T2 must be identical
 	3. same for right subtree
 	![](images/identicaltree.bmp)
-	```c++
+```c++
 bool isSameTree(TreeNode* p, TreeNode* q) {
 if(p==NULL || q==NULL) return p==q;
 	return (p->val == q->val) && isSameTree(p->left,q->left) && isSameTree(p->right,q->right);
 }
-    ```
+```
 ---
 - ### Analysis :
 	- **Time : O(N)**.
