@@ -1,3 +1,3 @@
-# DSA
-## [Notes](BinaryTree/Binarytree.md)
-## [Questions](BinaryTree/questions.md)
+# Binary tree
+- ## [Notes](BinaryTree/Binarytree.md)
+- ## [Questions](BinaryTree/questions.md)
