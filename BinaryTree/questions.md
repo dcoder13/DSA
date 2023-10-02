@@ -265,3 +265,166 @@ vector<int> traverseBoundary(TreeNode<int> *root)
 - ### Analysis :
 	- **Time : O(N)** - O(N) *(dfsleaf)* + O(H) *(dfsleft)* + O(H) *(dfsright)* = O(N)
 	- **Space : O(H)** - recursion stack *(worst case = O(N) i.e., skewed tree)*
+
+## [Vertical Order Traversal](https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/)
+
+- Vertical Order Traversal, as the name suggests is a traversal in which we divide the binary tree in verticals from left to right, and in every vertical, we print the nodes from top to bottom.
+![](images/verticalorder.bmp)
+
+**Note:**
+- There can be duplicate values among the nodes (here 10 is repeated twice).
+- If two or more nodes are overlapping at the same position(here 10 and 9), then they will be printed in ascending order.
+- *vertical level = column index*
+- *horizontal level = row index*
+---
+### Solution - 
+- using dfs wont work (why?)
+- level order traversal while storing horizontal and vertical level of each node
+
+#### Solution -1 :
+- precompute horizontal width of binary tree using dfs.
+- while applying level order traversal , use 2 query data structures , 1 to store node and another to store the corresponding index(vertical level)
+- in each level , create a hash vector of size = horizontal width of tree with initial values as zero
+	- as we add elements to our output vector , increase the corresponding index in our hash vector
+	- if $hash vector[top]$ > 0 ,then  $sort(v[top].end() - hashvector[top] , v.end())$ i.e., sort the elements whose vertical and horizontal level are same
+ ```c++
+int min1=0,max1=0;
+void dfs(TreeNode* node,int pos)
+{
+	if(!node)
+	{
+		return;
+	}
+	dfs(node->left,pos-1);
+	dfs(node->right,pos+1);
+	min1=min(pos,min1);
+	max1=max(pos,max1);
+}
+
+vector<vector<int>> verticalTraversal(TreeNode* root) {
+	auto node=root;
+	dfs(node,0);
+	queue <TreeNode*>q;
+	queue <int>q1;
+	vector<vector<int>> v(abs(min1)+max1+1);
+	if(!node)return v;
+	q.push(node);//storing node
+	q1.push(abs(min1));//corresponding vertical level aka column index
+	while(q.size())
+	{
+		vector<int> level(abs(min1)+max1+1,0); //hash vector
+		int size=q.size();
+
+		for(int i = 0 ; i < size ; i++)
+		{
+			auto temp=q.front();
+			int top=q1.front();
+			v[top].push_back(temp->val);
+			level[top]++;
+			sort(v[top].end()-level[top],v[top].end()); // sorting in same row , col
+			if(temp->left)
+			{
+				q.push(temp->left);
+				q1.push(top-1);
+			}
+			if(temp->right)
+			{
+				q.push(temp->right);
+				q1.push(top+1);
+			}
+			q.pop();
+			q1.pop();
+		}
+	}
+	return v;
+}
+```
+### Analysis:
+- **Time : O(N)** - `O(N) + O(log N * N * N)`
+- **Space : O(N)**
+---
+### Solution -2:
+- use `map` data-structure instead
+-  $map<vertical,map<level,multiset>>$
+- firstly store every element with corresponding vertical and horizontal index in map which will sort in order of:
+	1. vertical level
+	2. horizontal level
+	3. numerical value
+```c++
+vector<vector<int>> verticalTraversal(TreeNode* root) {
+	map<int, map<int, multiset<int>>>nodes;
+	queue<pair<TreeNode*, pair<int, int>>>q;
+	q.push({root, {0, 0}});
+
+	while(!q.empty())//level order
+	{
+		auto temp = q.front();
+		q.pop();
+		auto node = temp.first;
+		int x = temp.second.first;
+		int y = temp.second.second;
+		nodes[x][y].insert(node->val);
+
+		if(node->left)
+		{
+			q.push({node->left, {x-1, y+1}});
+		}
+		if(node->right)
+		{
+			q.push({node->right, {x+1, y+1}});
+		}
+
+	}
+
+	vector<vector<int>>ans;
+	for(auto &column : nodes)
+	{
+		vector<int>col;
+		for(auto &row : column.second)
+		{
+			col.insert(col.end(), row.second.begin(), row.second.end());
+		}
+
+		ans.push_back(col);
+	}
+
+	return ans;
+}
+```
+### Analysis :
+- **Time : `O(N*log n * log n * log n)`** 
+- **Space : O(N)**
+
+---
+### Alternative approach
+- use dfs instead of level order
+- instead of storing in map , create a vector of array of size 3
+- #### Time complexity analysis:
+	- each search operation will occur in `O(1)` rather than `O(log N *log N * log N)` 
+	- overall time =` O(N)` + `O(log N * log N * log N)` 
+```c++
+vector<array<int,3>> m;
+int mn = 100000;
+int mx = -100000;
+
+void dfs(TreeNode *node, int r, int c) {
+	if (!node) {
+		return;
+	}
+	m.push_back({c , r, node->val});
+	dfs(node->left, r + 1, c - 1);
+	dfs(node->right, r + 1, c + 1);
+	mn = min(mn, c);
+	mx = max(mx, c);
+}
+
+vector<vector<int>> verticalTraversal(TreeNode* root) {
+	dfs(root, 0, 0);
+	vector<vector<int>> ret(mx - mn + 1);
+	sort(m.begin(), m.end());
+	for (auto [c , r , v] :  m) {
+		ret[c - mn].push_back(v);
+	}
+	return ret;
+}
+```
