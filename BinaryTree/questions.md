@@ -428,3 +428,74 @@ vector<vector<int>> verticalTraversal(TreeNode* root) {
 	return ret;
 }
 ```
+
+## [Top View Of Binary Tree](https://www.codingninjas.com/studio/problems/top-view-of-binary-tree_799401)
+- set of nodes visible when the tree is viewed from the top
+![](topview.bmp)
+- dfs didn't work
+- try using bfs 
+- ---
+### Approach:
+- find horizontal width aka number of columns
+- use `queue<pair<TreeNode*,int>>` or 2 queues
+- apply bfs
+- store the first occurrence of any column index (use a hash array)
+
+```c++
+int min1 = 0 , max1 = 0;
+void width(TreeNode<int> * node,int index)
+{
+    if(!node)return;
+    width(node->left,index-1);
+    width(node->right,index+1);
+    min1=min(min1,index);
+    max1=max(max1,index);
+}
+  
+vector<int> getTopView(TreeNode<int> *root)
+{
+    auto node=root;
+    width(node , 0);
+    int w=max1-min1+1;
+    vector<int> hash(w,0) , ans(w);
+    if(!node)return ans;
+    queue <pair<TreeNode<int>*,int>> q;
+    q.push(make_pair(node,-1*min1));
+    while(q.size())
+    {
+        int size=q.size();
+        for(int i = 0 ; i <size ; i++)
+        {
+            auto it = q.front();
+            TreeNode<int>* temp=it.first;
+            int index = it.second;
+            if(!hash[index])
+            {
+                hash[index]=1;
+                ans[index]=temp->data;
+            }
+            if(temp->left)q.push({temp->left , index-1});
+            if(temp->right)q.push({temp->right , index+1});
+            q.pop();
+        }
+    }
+    return ans;
+}
+```
+
+### Analysis:
+-  **TIme O(N) :** `O(N)` during dfs for finding width  + `O(N)` for level order
+- **Space O(N) :** queue
+---
+
+
+
+## [Bottom view of Binary Tree](https://www.codingninjas.com/studio/problems/bottom-view-of-binary-tree_893110)
+
+## [left view](https://www.codingninjas.com/studio/problems/left-view-of-binary-tree_625707)
+## [Root to Node Path](https://www.codingninjas.com/studio/problems/all-root-to-leaf-paths-in-binary-tree._983599)
+**Note:**
+- No two nodes in the tree have the same data value.
+- It is assured that the node V is present and a path always exists.
+![](roottonode.bmp)
+
