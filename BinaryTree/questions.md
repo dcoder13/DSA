@@ -499,3 +499,78 @@ vector<int> getTopView(TreeNode<int> *root)
 - It is assured that the node V is present and a path always exists.
 ![](roottonode.bmp)
 
+
+```c++
+vecto<int> v;
+bool dfs(BinaryTreeNode<int> * node,int &x)
+{
+	if(!node)return false;
+	v.push_bacK(node->data);
+	if(node->data==x) return true;
+	if(dfs(node->left,x) || dfs(npde->right,x))return true;
+	v.pop_back();
+	return false;
+	
+}
+vector <int> allRootToLeaf(BinaryTreeNode<int> * root , int find) 
+{
+    BinaryTreeNode<int>*node=root;
+    dfs(node,find);
+    return v;
+}
+```
+
+### ROOT TO ALL LEAF NODES PATH:
+- Approach similar to subset generation
+- Once we reach at a leaf node , store the string
+
+```c++
+vector<string> v;
+string s;
+void dfs(BinaryTreeNode<int>* node)
+{
+    if(!node)return;
+    int x=node->data;
+    string s1;
+    while(x)
+    {
+        s1.push_back((char)(x%10 + (int)'0'));
+        x/=10;
+    }
+    while(s1.size())
+    {
+        s.push_back(s1.back());
+        s1.pop_back();
+    }
+    s.push_back(' ');
+    dfs(node->left);
+    dfs(node->right);
+    if(!node->left and !node->right)
+    {
+        v.push_back(s);
+    }
+    s.pop_back();
+    while(s.back()!=' ' && s.size())
+    {
+        s.pop_back();
+    }
+  
+}
+  
+vector <string> allRootToLeaf(BinaryTreeNode<int> * root) 
+{
+    BinaryTreeNode<int>*node=root;
+    dfs(node);
+    return v;
+}
+```
+
+
+
+## [LCA of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+- The **Lowest Common Ancestor** is defined between two nodes x and y as the lowest node in T that has both x and y as descendants (where we allow a node to be a descendant of itself).
+
+- Intution:
+	1. Search left sub tree
+	2. Searcj right sub tree
+	3. if none , root is the LCA
