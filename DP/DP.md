@@ -1,4 +1,4 @@
-# 1. MEMORIZATION - recursion
+# 1. MEMOIATION - recursion
 
 # 2. TABULATION - iterative
 
@@ -11,7 +11,7 @@
 ![](images/fiborecursion.png)
 
 - we're solving f(2) , f(3) , f(1) again and again , This is called **<u>Overlapping Sub-problems</u>** 
-- ### Here comes Memorization
+- ### Here comes Memoiation
 - We tend to store the values in table/map to avoid overlapping
 	- create an array dp[size] initialized with -1
 	- if a new problem was solved , 
