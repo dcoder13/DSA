@@ -57,7 +57,7 @@ int frogJump(int n, vector<int> &h)
 - **Space - O(1)**
 
 ---
-## [Frog Jump (k jump size)]()
+## [Frog Jump (k jump size)](https://www.codingninjas.com/studio/problems/minimal-cost_8180930)
 ### Memoiation :
 ```c++
 int f(int n , int k , int dp[] , vector<int> &h)
