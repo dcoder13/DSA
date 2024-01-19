@@ -19,7 +19,7 @@ struct TreeNode {
 	-  Left -> mid -> right
 	- ![inorder](images/inorderTraversal.png)
 		## Iterative code
-		```c++
+```c++
 		vector<int> inorderTraversal(TreeNode* root) {
 		vector<int> v;
 		stack <TreeNode*> st;
@@ -41,16 +41,15 @@ struct TreeNode {
 		}
 		return v;
 		}
-	```
-	- ## Explanation
-			- <u>Remember! left --> mid --> right</u>
-			1. if node != NULL keep adding elements to the stack and node->left. 
-			2. if node is NULL , access the parent node (aka top of stack)  then print and pop the node.
-			3. Now node ->right and go to <u>step 1</u>.
-			4. repeat until stack isn't empty and node!=NULL.
-	- ### Recursive code
-
-	```c++
+```
+- ## Explanation
+	- <u>Remember! left --> mid --> right</u>
+	1. if node != NULL keep adding elements to the stack and node->left. 
+	2. if node is NULL , access the parent node (aka top of stack)  then print and pop the node.
+	3. Now node ->right and go to <u>step 1</u>.
+	4. repeat until stack isn't empty and node!=NULL.
+- ### Recursive code
+```c++
 	 
 	vector <int> v;
 	void inorder(TreeNode* root)
@@ -66,15 +65,15 @@ struct TreeNode {
 		return v;
 	
 	}
-	```
+```
 
 
-	- #### Explanation
-		- <u>Remember! left --> mid --> right</u>
-		1.  recursion tree keeps moving to the left
-		2.  one the NULL node is reached , it backtracks to the parent node and that is the  left most node.
-		3. then node->right if not NULL => <u>point 1</u> , else Backtracks to the parent node(this now becomes the left/ subtree)
-		4. Left done , the current node is appended , then node->right =><u>point 1</u> 
+- #### Explanation
+	- <u>Remember! left --> mid --> right</u>
+	1.  recursion tree keeps moving to the left
+	2.  one the NULL node is reached , it backtracks to the parent node and that is the  left most node.
+	3. then node->right if not NULL => <u>point 1</u> , else Backtracks to the parent node(this now becomes the left/ subtree)
+	4. Left done , the current node is appended , then node->right =><u>point 1</u> 
 ---
 - ## Pre Order
 ---
@@ -91,7 +90,7 @@ struct TreeNode {
 
  
 	**Code :**
-	```c++
+```c++
 	vector<vector<int>> levelOrder(TreeNode* root) {
         TreeNode* node = root;
         queue<TreeNode*> q;
@@ -119,7 +118,7 @@ struct TreeNode {
         }
         return v;
     }
-	```
+```
 ---
 
 
